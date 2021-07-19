@@ -35,10 +35,12 @@ conn_cursor.execute('''CREATE TABLE IF NOT EXISTS distances
 # Insert a row of data
 # conn_cursor.execute("INSERT OR IGNORE INTO reservation_messages VALUES ('HMCTCRWMZM', '2018-12-25','BOOKING')")
 
-locations = [('Amma and Abba', '548 Liz Terrace', 'Tracy', 'CA', 'USA', 37.759690, -121.535225),
-             ('Niha', '271 Amber Drive', 'San Francisco', 'CA', 'USA', 37.744570, -122.443170),
-             ('Emma', '840 Waller St', 'San Francisco', 'CA', 'USA', 37.770629, -122.436870)]
-conn_cursor.executemany('INSERT OR IGNORE INTO locations VALUES (?,?,?,?,?,?,?)', locations)
+locations = [('Amma and Abba', '548 Liz Terrace', 'Tracy', 'CA', 'USA', 37.759690, -121.535225, 25),
+             ('Niha', '271 Amber Drive', 'San Francisco', 'CA', 'USA', 37.744570, -122.443170, 3),
+             ('Kira', '175 29th St', 'San Francisco', 'CA', 'USA', 37.744099, -122.423792, 2),
+             ('Ballard', '6101 14th Ave NW', 'Seattle', 'WA', 'USA', 47.673256, -122.373690, 5),
+             ]
+conn_cursor.executemany('INSERT OR IGNORE INTO locations VALUES (?,?,?,?,?,?,?,?)', locations)
 
 # Save (commit) the changes
 conn.commit()

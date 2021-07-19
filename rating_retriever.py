@@ -58,6 +58,8 @@ class RatingRetriever():
                     best_business_match = self.get_best_match(yelp_businesses_matches.businesses, grubhub_restaurant)
                     if not best_business_match:
                         print("No similar name match Found! {}".format(grubhub_restaurant.name))
+                        continue
+                        ##TODO: Here, the code needs to add these restaurants to a list that can be processed at the end of pulling all the restaurants
                         for index, business in enumerate(yelp_businesses_matches.businesses):
                             print(">>>>>>>> {}: {}".format(index, business))
                         choice = -1
@@ -65,16 +67,16 @@ class RatingRetriever():
                             choice = int(input("Enter index of restaurant match starting at 0, anything else to skip: "))
                         except ValueError as ve:
                             print("Skipping restaurant match")
-                        if choice >= 0:
+                        if choice >= 0 and choice <= len(yelp_businesses_matches.businesses):
                             best_business_match = yelp_businesses_matches.businesses[choice]
-                    if best_business_match:
+                    else: #found business match
                         print("Found match GH: {} ---- Yelp: {}".format(grubhub_restaurant.name, best_business_match.name))
                         grubhub_url = "https://www.grubhub.com/restaurant/{}/{}".format(grubhub_restaurant.merchant_url_path, grubhub_restaurant.restaurant_id)
                         yelp_url = ""
                         if best_business_match.url:
                             yelp_url = best_business_match.url.split('?')[0]
                         match = (best_business_match.name, grubhub_restaurant.name, grubhub_restaurant.restaurant_id,
-                            address.street_address, address.address_locality, address.address_region, address.address_country,
+                            address.street_address, address.address_locality, address.address_region, best_business_match.location.country,
                             phone_number, best_business_match.rating, best_business_match.review_count, yelp_url, grubhub_url,
                             best_business_match.coordinates.latitude, best_business_match.coordinates.longitude)
                         matched_restaurants.append(match)
@@ -83,7 +85,10 @@ class RatingRetriever():
                 sleep(1)
 
             print("Found {} matched restaurants".format(len(matched_restaurants)))
-            self.restaurant_data.insert_restaurants(matched_restaurants)
+            print("Inserted restaurants: {}".format(self.restaurant_data.insert_restaurants(matched_restaurants)))
+
+            ##TODO: check number of inserted restaurants in the table
+
             if search_results.pager.current_page == search_results.pager.total_pages or page_number == search_results.pager.total_pages:
                 break
             elif search_results.pager.current_page > search_results.pager.total_pages or page_number > search_results.pager.total_pages:

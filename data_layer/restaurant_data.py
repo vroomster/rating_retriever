@@ -15,7 +15,7 @@ class RestaurantData:
                  PRIMARY KEY(grubhub_restaurant_name, phone_number));'''
     def insert_restaurants(self, restaurants=[]):
         query = 'INSERT OR IGNORE INTO restaurant_data VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
-        return self.connector.execute_many(query, restaurants)
+        return self.connector.execute_many(query, restaurants).rowcount
 
     def get_restaurants_sorted_by_rating(self, city, min_rating=3.5):
         query = """SELECT *
