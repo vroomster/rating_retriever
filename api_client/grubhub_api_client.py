@@ -44,7 +44,7 @@ class GrubhubApiClient:
 #countOmittingTimes: true}
 
         response = self.api_client.make_get_request(url=api_url, params=params)
-        #print(response.json())
+        print(response.json())
         search_results = SearchResults(response.json())
         #print(search_results)
         return search_results

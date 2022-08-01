@@ -29,5 +29,5 @@ class Restaurant(ResponseObject):
         "phone_number": Phone,
         "address": Address,
         "merchant_url_path": str,
-        
+
     }
